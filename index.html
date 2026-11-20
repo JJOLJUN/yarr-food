@@ -14,6 +14,56 @@
       --purple-dark: #6141d2;
       --line: #e9e5f4;
       --surface: #fff;
+      --page-bg: #f8f7fc;
+      --page-glow-one: #e8e1ff;
+      --page-glow-two: #ffe9e4;
+      --card-border: #eeebf5;
+      --card-shadow: #44316b12;
+      --card-shadow-soft: #44316b08;
+      --badge-border: #e8e2fa;
+      --badge-bg: #ffffffa6;
+      --hero-start: #f3efff;
+      --hero-middle: #fbf8ff;
+      --hero-end: #fff5f0;
+      --count-bg: #f0ecff;
+      --input-bg: #fdfcff;
+      --placeholder: #b1adc0;
+      --draw-border: #efecf6;
+      --draw-start: #fdfcff;
+      --draw-end: #faf8ff;
+      --chip-border: #e9e3ff;
+      --chip-bg: #fff;
+      --chip-text: #6247c4;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #f0edfc;
+      --muted: #aaa4c0;
+      --purple: #967df5;
+      --purple-dark: #b2a1ff;
+      --line: #39344c;
+      --surface: #211e2d;
+      --page-bg: #171520;
+      --page-glow-one: #30254f;
+      --page-glow-two: #432b36;
+      --card-border: #363144;
+      --card-shadow: #08071080;
+      --card-shadow-soft: #08071050;
+      --badge-border: #403854;
+      --badge-bg: #252131c9;
+      --hero-start: #2e2842;
+      --hero-middle: #292438;
+      --hero-end: #36272f;
+      --count-bg: #37304f;
+      --input-bg: #191722;
+      --placeholder: #77718a;
+      --draw-border: #3a3549;
+      --draw-start: #282535;
+      --draw-end: #242130;
+      --chip-border: #4a406b;
+      --chip-bg: #292536;
+      --chip-text: #c0b3ff;
     }
 
     * { box-sizing: border-box; }
@@ -25,9 +75,9 @@
       padding: 48px 20px;
       color: var(--ink);
       background:
-        radial-gradient(ellipse at 12% 10%, #e8e1ff 0, transparent 34%),
-        radial-gradient(ellipse at 92% 84%, #ffe9e4 0, transparent 30%),
-        #f8f7fc;
+        radial-gradient(ellipse at 12% 10%, var(--page-glow-one) 0, transparent 34%),
+        radial-gradient(ellipse at 92% 84%, var(--page-glow-two) 0, transparent 30%),
+        var(--page-bg);
       font-family: Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
     }
 
@@ -58,23 +108,34 @@
     }
     .top-badge {
       padding: 8px 12px;
-      border: 1px solid #e8e2fa;
+      border: 1px solid var(--badge-border);
       border-radius: 999px;
-      background: #ffffffa6;
+      background: var(--badge-bg);
+    }
+    .top-actions { display: flex; align-items: center; gap: 9px; }
+    .theme-toggle {
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .theme-toggle:hover { border-color: var(--purple); color: var(--purple-dark); }
+    .theme-toggle:focus-visible, .text-button:focus-visible, .draw-button:focus-visible {
+      outline: 3px solid #967df5;
+      outline-offset: 3px;
     }
 
     .card {
       overflow: hidden;
-      border: 1px solid #eeebf5;
+      border: 1px solid var(--card-border);
       border-radius: 25px;
       background: var(--surface);
-      box-shadow: 0 22px 70px #44316b12, 0 3px 12px #44316b08;
+      box-shadow: 0 22px 70px var(--card-shadow), 0 3px 12px var(--card-shadow-soft);
     }
     .hero {
       position: relative;
       padding: 36px 44px 31px;
       overflow: hidden;
-      background: linear-gradient(112deg, #f3efff 0%, #fbf8ff 54%, #fff5f0 100%);
+      background: linear-gradient(112deg, var(--hero-start) 0%, var(--hero-middle) 54%, var(--hero-end) 100%);
     }
     .hero::after {
       position: absolute;
@@ -99,7 +160,7 @@
       letter-spacing: .09em;
     }
     h1 { margin: 0; font-size: clamp(29px, 5vw, 40px); letter-spacing: -.055em; }
-    .hero p { margin: 10px 0 0; color: #77718d; font-size: 15px; }
+    .hero p { margin: 10px 0 0; color: var(--muted); font-size: 15px; }
 
     .workspace {
       display: grid;
@@ -118,7 +179,7 @@
       padding: 5px 9px;
       border-radius: 999px;
       color: var(--purple-dark);
-      background: #f0ecff;
+      background: var(--count-bg);
       font-size: 12px;
       font-weight: 800;
     }
@@ -133,18 +194,18 @@
       border-radius: 14px;
       outline: none;
       color: var(--ink);
-      background: #fdfcff;
+      background: var(--input-bg);
       font-size: 14px;
       line-height: 1.85;
       transition: border-color .2s, box-shadow .2s;
     }
     textarea:focus { border-color: #a795f4; box-shadow: 0 0 0 4px #7657e81a; }
-    textarea::placeholder { color: #b1adc0; }
+    textarea::placeholder { color: var(--placeholder); }
     .input-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 11px; }
     .text-button {
       padding: 5px 0;
       border: 0;
-      color: #77718d;
+      color: var(--muted);
       background: transparent;
       font-size: 12px;
       font-weight: 700;
@@ -156,9 +217,9 @@
       min-height: 330px;
       flex-direction: column;
       padding: 21px;
-      border: 1px solid #efecf6;
+      border: 1px solid var(--draw-border);
       border-radius: 18px;
-      background: linear-gradient(145deg, #fdfcff, #faf8ff);
+      background: linear-gradient(145deg, var(--draw-start), var(--draw-end));
     }
     .draw-top { display: flex; justify-content: space-between; align-items: center; }
     .draw-label { color: var(--muted); font-size: 12px; font-weight: 700; }
@@ -214,10 +275,10 @@
     .history-list { display: flex; flex-wrap: wrap; gap: 6px; }
     .winner-chip {
       padding: 5px 9px;
-      border: 1px solid #e9e3ff;
+      border: 1px solid var(--chip-border);
       border-radius: 999px;
-      color: #6247c4;
-      background: white;
+      color: var(--chip-text);
+      background: var(--chip-bg);
       font-size: 11px;
       font-weight: 700;
     }
@@ -226,7 +287,7 @@
       justify-content: space-between;
       gap: 16px;
       padding: 0 34px 25px;
-      color: #9691a7;
+      color: var(--muted);
       font-size: 11px;
     }
     .sr-only {
@@ -258,7 +319,10 @@
   <main class="page">
     <div class="topline">
       <div class="brand"><span class="brand-mark" aria-hidden="true">✦</span> 오늘의 행운</div>
-      <span class="top-badge">공정하고 간편하게</span>
+      <div class="top-actions">
+        <span class="top-badge">공정하고 간편하게</span>
+        <button class="top-badge theme-toggle" id="theme-toggle" type="button">🌙 다크 모드</button>
+      </div>
     </div>
 
     <section class="card" aria-labelledby="page-title">
@@ -322,8 +386,24 @@
     const resultHint = document.querySelector("#result-hint");
     const ticketIcon = document.querySelector("#ticket-icon");
     const historyList = document.querySelector("#history-list");
+    const themeToggle = document.querySelector("#theme-toggle");
+    const themeColor = document.querySelector('meta[name="theme-color"]');
     let participants = [];
     let winners = [];
+
+    function setTheme(theme, save = true) {
+      const isDark = theme === "dark";
+      document.documentElement.dataset.theme = isDark ? "dark" : "light";
+      themeToggle.textContent = isDark ? "☀️ 화이트 모드" : "🌙 다크 모드";
+      themeToggle.setAttribute("aria-label", isDark ? "화이트 모드로 전환" : "다크 모드로 전환");
+      themeColor.content = isDark ? "#171520" : "#f6f3ff";
+      if (save) localStorage.setItem("raffle-theme", isDark ? "dark" : "light");
+    }
+
+    setTheme(localStorage.getItem("raffle-theme") === "dark" ? "dark" : "light", false);
+    themeToggle.addEventListener("click", () => {
+      setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+    });
 
     function parseParticipants(value) {
       return [...new Set(value.split(/[\n,，]+/).map(name => name.trim()).filter(Boolean))];
