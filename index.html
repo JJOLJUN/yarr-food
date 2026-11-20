@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f3ff">
+  <title>두근두근 제비뽑기</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #292443;
+      --muted: #817c98;
+      --purple: #7657e8;
+      --purple-dark: #6141d2;
+      --line: #e9e5f4;
+      --surface: #fff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      padding: 48px 20px;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 12% 10%, #e8e1ff 0, transparent 34%),
+        radial-gradient(ellipse at 92% 84%, #ffe9e4 0, transparent 30%),
+        #f8f7fc;
+      font-family: Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    }
+
+    button, textarea { font: inherit; }
+    button { cursor: pointer; }
+
+    .page { width: min(100%, 980px); margin: 0 auto; }
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 4px 22px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .brand { display: flex; align-items: center; gap: 9px; color: var(--ink); }
+    .brand-mark {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 10px;
+      color: white;
+      background: var(--purple);
+      font-size: 17px;
+    }
+    .top-badge {
+      padding: 8px 12px;
+      border: 1px solid #e8e2fa;
+      border-radius: 999px;
+      background: #ffffffa6;
+    }
+
+    .card {
+      overflow: hidden;
+      border: 1px solid #eeebf5;
+      border-radius: 25px;
+      background: var(--surface);
+      box-shadow: 0 22px 70px #44316b12, 0 3px 12px #44316b08;
+    }
+    .hero {
+      position: relative;
+      padding: 36px 44px 31px;
+      overflow: hidden;
+      background: linear-gradient(112deg, #f3efff 0%, #fbf8ff 54%, #fff5f0 100%);
+    }
+    .hero::after {
+      position: absolute;
+      top: -95px;
+      right: -15px;
+      width: 280px;
+      height: 280px;
+      border: 1px solid #ffffffb8;
+      border-radius: 50%;
+      box-shadow: 0 0 0 24px #ffffff38, 0 0 0 48px #ffffff24;
+      content: "";
+      pointer-events: none;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 12px;
+      color: var(--purple-dark);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .09em;
+    }
+    h1 { margin: 0; font-size: clamp(29px, 5vw, 40px); letter-spacing: -.055em; }
+    .hero p { margin: 10px 0 0; color: #77718d; font-size: 15px; }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+      gap: 24px;
+      padding: 30px;
+    }
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 0 12px;
+    }
+    h2 { margin: 0; font-size: 16px; letter-spacing: -.02em; }
+    .count {
+      padding: 5px 9px;
+      border-radius: 999px;
+      color: var(--purple-dark);
+      background: #f0ecff;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .helper { margin: 0 0 12px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 218px;
+      padding: 15px 16px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      outline: none;
+      color: var(--ink);
+      background: #fdfcff;
+      font-size: 14px;
+      line-height: 1.85;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    textarea:focus { border-color: #a795f4; box-shadow: 0 0 0 4px #7657e81a; }
+    textarea::placeholder { color: #b1adc0; }
+    .input-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 11px; }
+    .text-button {
+      padding: 5px 0;
+      border: 0;
+      color: #77718d;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .text-button:hover { color: var(--purple-dark); }
+
+    .draw-panel {
+      display: flex;
+      min-height: 330px;
+      flex-direction: column;
+      padding: 21px;
+      border: 1px solid #efecf6;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #fdfcff, #faf8ff);
+    }
+    .draw-top { display: flex; justify-content: space-between; align-items: center; }
+    .draw-label { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .draw-icon { font-size: 20px; }
+    .result {
+      display: grid;
+      flex: 1;
+      min-height: 190px;
+      place-content: center;
+      text-align: center;
+    }
+    .ticket { margin-bottom: 13px; font-size: 34px; }
+    .result-name {
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      color: var(--purple-dark);
+      font-size: clamp(29px, 5vw, 40px);
+      font-weight: 900;
+      letter-spacing: -.05em;
+      animation: pop .35s ease-out;
+    }
+    .result-hint { margin-top: 9px; color: var(--muted); font-size: 13px; }
+    @keyframes pop {
+      from { transform: scale(.8); opacity: .3; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .draw-button {
+      width: 100%;
+      min-height: 52px;
+      border: 0;
+      border-radius: 13px;
+      color: white;
+      background: linear-gradient(100deg, #8062ed, #6948db);
+      box-shadow: 0 8px 18px #7657e83b;
+      font-size: 15px;
+      font-weight: 800;
+      transition: transform .15s, box-shadow .15s, opacity .15s;
+    }
+    .draw-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 11px 22px #7657e84a; }
+    .draw-button:active:not(:disabled) { transform: translateY(0); }
+    .draw-button:disabled { cursor: not-allowed; opacity: .48; box-shadow: none; }
+
+    .history {
+      display: flex;
+      min-height: 54px;
+      align-items: center;
+      gap: 8px;
+      margin-top: 17px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+    .history-title { flex: 0 0 auto; color: var(--muted); font-size: 11px; font-weight: 800; }
+    .history-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .winner-chip {
+      padding: 5px 9px;
+      border: 1px solid #e9e3ff;
+      border-radius: 999px;
+      color: #6247c4;
+      background: white;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 34px 25px;
+      color: #9691a7;
+      font-size: 11px;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      clip-path: inset(50%);
+      border: 0;
+    }
+
+    @media (max-width: 700px) {
+      body { padding: 24px 14px; }
+      .hero { padding: 29px 24px; }
+      .workspace { grid-template-columns: 1fr; gap: 22px; padding: 23px; }
+      textarea { min-height: 160px; }
+      .draw-panel { min-height: 300px; }
+      .footer { padding: 0 24px 22px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topline">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">✦</span> 오늘의 행운</div>
+      <span class="top-badge">공정하고 간편하게</span>
+    </div>
+
+    <section class="card" aria-labelledby="page-title">
+      <header class="hero">
+        <div class="eyebrow"><span aria-hidden="true">✧</span> RANDOM DRAW</div>
+        <h1 id="page-title">두근두근 제비뽑기</h1>
+        <p>참가자를 적고 버튼을 눌러 오늘의 주인공을 뽑아보세요.</p>
+      </header>
+
+      <div class="workspace">
+        <section aria-labelledby="participants-heading">
+          <div class="section-heading">
+            <h2 id="participants-heading">참가자</h2>
+            <span class="count" id="participant-count">0명</span>
+          </div>
+          <p class="helper">이름을 한 줄에 하나씩 입력해 주세요. 쉼표로 구분해도 돼요.</p>
+          <label class="sr-only" for="participants">참가자 이름 목록</label>
+          <textarea id="participants" placeholder="예)&#10;김하늘&#10;이도윤&#10;박서연" spellcheck="false"></textarea>
+          <div class="input-actions">
+            <button class="text-button" id="sample-button" type="button">예시 입력</button>
+            <button class="text-button" id="clear-button" type="button">모두 지우기</button>
+          </div>
+        </section>
+
+        <section aria-labelledby="draw-heading">
+          <div class="section-heading">
+            <h2 id="draw-heading">행운의 주인공</h2>
+            <span class="count" id="remaining-count">남은 0명</span>
+          </div>
+          <div class="draw-panel">
+            <div class="draw-top">
+              <span class="draw-label">오늘의 당첨자</span>
+              <span class="draw-icon" aria-hidden="true">🎟️</span>
+            </div>
+            <div class="result" aria-live="polite" aria-atomic="true">
+              <span class="ticket" aria-hidden="true" id="ticket-icon">🎁</span>
+              <div class="result-name" id="result-name">누가 뽑힐까요?</div>
+              <div class="result-hint" id="result-hint">참가자를 입력하면 시작할 수 있어요</div>
+            </div>
+            <button class="draw-button" id="draw-button" type="button" disabled>제비 뽑기</button>
+            <div class="history" aria-label="뽑힌 사람 목록">
+              <span class="history-title">뽑힌 사람</span>
+              <div class="history-list" id="history-list"><span class="result-hint">아직 없어요</span></div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <footer class="footer">
+        <span>한 번 뽑힌 사람은 다시 뽑히지 않아요.</span>
+        <span>참가자 목록을 수정하면 추첨이 새로 시작돼요.</span>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    const participantsInput = document.querySelector("#participants");
+    const participantCount = document.querySelector("#participant-count");
+    const remainingCount = document.querySelector("#remaining-count");
+    const drawButton = document.querySelector("#draw-button");
+    const resultName = document.querySelector("#result-name");
+    const resultHint = document.querySelector("#result-hint");
+    const ticketIcon = document.querySelector("#ticket-icon");
+    const historyList = document.querySelector("#history-list");
+    let participants = [];
+    let winners = [];
+
+    function parseParticipants(value) {
+      return [...new Set(value.split(/[\n,，]+/).map(name => name.trim()).filter(Boolean))];
+    }
+
+    function syncParticipants() {
+      participants = parseParticipants(participantsInput.value);
+      winners = [];
+      participantCount.textContent = `${participants.length}명`;
+      remainingCount.textContent = `남은 ${participants.length}명`;
+      drawButton.disabled = participants.length === 0;
+      resultName.textContent = participants.length ? "누가 뽑힐까요?" : "참가자를 입력해 주세요";
+      resultHint.textContent = participants.length ? "버튼을 누르면 행운의 주인공이 나와요" : "이름을 한 명 이상 적어주세요";
+      ticketIcon.textContent = "🎁";
+      renderHistory();
+    }
+
+    function renderHistory() {
+      historyList.replaceChildren();
+      if (winners.length === 0) {
+        const empty = document.createElement("span");
+        empty.className = "result-hint";
+        empty.textContent = "아직 없어요";
+        historyList.append(empty);
+        return;
+      }
+      winners.forEach((winner, index) => {
+        const chip = document.createElement("span");
+        chip.className = "winner-chip";
+        chip.textContent = `${index + 1}. ${winner}`;
+        historyList.append(chip);
+      });
+    }
+
+    participantsInput.addEventListener("input", syncParticipants);
+    document.querySelector("#sample-button").addEventListener("click", () => {
+      participantsInput.value = "김하늘\n이도윤\n박서연\n최민준\n정수아";
+      syncParticipants();
+      participantsInput.focus();
+    });
+    document.querySelector("#clear-button").addEventListener("click", () => {
+      participantsInput.value = "";
+      syncParticipants();
+      participantsInput.focus();
+    });
+    drawButton.addEventListener("click", () => {
+      const available = participants.filter(name => !winners.includes(name));
+      if (available.length === 0) {
+        resultName.textContent = "모두 뽑혔어요!";
+        resultHint.textContent = "참가자 목록을 수정하면 다시 뽑을 수 있어요";
+        ticketIcon.textContent = "🎉";
+        drawButton.disabled = true;
+        return;
+      }
+      const winner = available[Math.floor(Math.random() * available.length)];
+      winners.push(winner);
+      resultName.textContent = winner;
+      resultHint.textContent = `축하해요! ${winners.length}번째 당첨자예요`;
+      ticketIcon.textContent = "🎉";
+      remainingCount.textContent = `남은 ${available.length - 1}명`;
+      drawButton.disabled = available.length === 1;
+      drawButton.textContent = available.length === 1 ? "추첨 완료" : "한 명 더 뽑기";
+      renderHistory();
+    });
+
+    participantsInput.addEventListener("input", () => {
+      drawButton.textContent = "제비 뽑기";
+    });
+  </script>
+</body>
+</html>
